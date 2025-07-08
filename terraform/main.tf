@@ -1,3 +1,8 @@
+data "external" "mime_type" {
+  for_each = fileset("../src/", "**")
+  program  = ["python3", "${path.module}/get_mime_type.py", "../src/${each.value}"]
+}
+
 # Creating a resource groups to hold all the resources
 resource "azurerm_resource_group" "append_resource_group" {
   name     = "append-resource-group"
@@ -21,22 +26,15 @@ resource "azurerm_storage_account_static_website" "append_static_website" {
 }
 
 # Uploading files and folders to "Web" container
-resource "azurerm_storage_blob" "append_index_blob" {
-  name                   = "index.html"
+resource "azurerm_storage_blob" "append_blob" {
+  for_each     = fileset("../src/", "**")
+  name                   = each.value
   storage_account_name   = azurerm_storage_account.append_storage_account.name
   storage_container_name = "$web"
   type                   = "Block"
-  source                 = "../index.html"
-  depends_on = [ azurerm_storage_account_static_website.append_static_website ]
-}
-
-resource "azurerm_storage_blob" "append_not_found_blob" {
-  name                   = "404.html"
-  storage_account_name   = azurerm_storage_account.append_storage_account.name
-  storage_container_name = "$web"
-  type                   = "Block"
-  source                 = "../404.html"
-  depends_on = [ azurerm_storage_account_static_website.append_static_website ]
+  content_type           = data.external.mime_type[each.value].result["mime_type"]
+  source                 = "../src/${each.value}"
+  depends_on             = [azurerm_storage_account_static_website.append_static_website]
 }
 
 # FrontDoor profile
