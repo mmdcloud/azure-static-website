@@ -1,0 +1,33 @@
+digraph INFRA {
+  node [ color = "black", fillcolor = "#E6E6E6", height =1, style = "filled,bold,rounded", fontname = "Arial" ];
+  "append-resource-group" [ label = "append-resource-group
+(azurerm_resource_group)", shape =rectangle ];
+  "appendstorageacc" [ label = "appendstorageacc
+(azurerm_storage_account)", shape =cylinder, fillcolor = "#FFF5CD" ];
+  "append_static_website" [ label = "append_static_website
+(azurerm_storage_account_static_website)", shape =cylinder, fillcolor = "#FFF5CD" ];
+  "append_blob" [ label = "append_blob
+(azurerm_storage_blob)", shape =cylinder, fillcolor = "#FFF5CD" ];
+  "append-cdn-profile" [ label = "append-cdn-profile
+(azurerm_cdn_frontdoor_profile)", shape =rectangle, fillcolor = "#E78F81" ];
+  "append-cdn-endpoint" [ label = "append-cdn-endpoint
+(azurerm_cdn_frontdoor_endpoint)", shape =rectangle, fillcolor = "#E78F81" ];
+  "append-cdn-origin-group" [ label = "append-cdn-origin-group
+(azurerm_cdn_frontdoor_origin_group)", shape =rectangle, fillcolor = "#E78F81" ];
+  "append-cdn-origin" [ label = "append-cdn-origin
+(azurerm_cdn_frontdoor_origin)", shape =rectangle, fillcolor = "#E78F81" ];
+  "append-cdn-route" [ label = "append-cdn-route
+(azurerm_cdn_frontdoor_route)", shape =rectangle, fillcolor = "#E78F81" ];
+  "appendstorageacc" -> "append-resource-group";
+  "append_static_website" -> "appendstorageacc";
+  "append_blob" -> "appendstorageacc";
+  "append_blob" -> "append_static_website";
+  "append-cdn-profile" -> "append-resource-group";
+  "append-cdn-endpoint" -> "append-cdn-profile";
+  "append-cdn-origin-group" -> "append-cdn-profile";
+  "append-cdn-origin" -> "append-cdn-origin-group";
+  "append-cdn-origin" -> "appendstorageacc";
+  "append-cdn-route" -> "append-cdn-endpoint";
+  "append-cdn-route" -> "append-cdn-origin-group";
+  "append-cdn-route" -> "append-cdn-origin";
+}
