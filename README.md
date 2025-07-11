@@ -1,4 +1,4 @@
-# Append - A Modern Bootstrap Website Template with Azure Infrastructure
+# Append - A Modern Website Template with Azure Infrastructure
 
 Append is a professional Bootstrap website template with automated Azure infrastructure deployment, providing a seamless solution for creating responsive websites with enterprise-grade hosting and content delivery.
 
