@@ -27,7 +27,7 @@ resource "azurerm_storage_account_static_website" "append_static_website" {
 
 # Uploading files and folders to "Web" container
 resource "azurerm_storage_blob" "append_blob" {
-  for_each     = fileset("../src/", "**")
+  for_each               = fileset("../src/", "**")
   name                   = each.value
   storage_account_name   = azurerm_storage_account.append_storage_account.name
   storage_container_name = "$web"
